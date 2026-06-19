@@ -161,7 +161,7 @@ def convert_to_singbox(content: str, source_name: str) -> dict | None:
         print(f"⚠️  [{source_name}] 未提取到有效规则，已跳过。")
         return None
 
-    return {"version": 5, "rules": rules_array}
+    return {"version": 2, "rules": rules_array}
 
 
 def count_rules(data: dict) -> int:
