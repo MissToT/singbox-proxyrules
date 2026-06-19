@@ -1,0 +1,84 @@
+name: Update Singbox Rulesets
+
+on:
+  schedule:
+    # 每天 UTC 02:00 运行（北京时间 10:00）
+    - cron: '0 2 * * *'
+  # 允许在 Actions 页面手动触发
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      # ── 1. 检出代码 ─────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. 配置 Python ──────────────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # ── 3. 下载源文件并转换为 JSON ─────────────────────────────
+      - name: Convert rules to JSON
+        run: python scripts/convert.py
+
+      # ── 4. 查询 sing-box 最新稳定版本号 ────────────────────────
+      - name: Get latest sing-box version
+        id: singbox
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG=$(gh release view --repo SagerNet/sing-box --json tagName -q .tagName)
+          VERSION="${TAG#v}"
+          echo "tag=${TAG}"         >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "ℹ️  sing-box ${TAG}"
+
+      # ── 5. 下载并安装 sing-box 二进制 ──────────────────────────
+      - name: Install sing-box
+        run: |
+          VERSION="${{ steps.singbox.outputs.version }}"
+          ARCHIVE="sing-box-${VERSION}-linux-amd64"
+
+          echo "📥  下载 sing-box v${VERSION}..."
+          wget -q "https://github.com/SagerNet/sing-box/releases/download/v${VERSION}/${ARCHIVE}.tar.gz"
+          tar -xzf "${ARCHIVE}.tar.gz"
+          sudo install -m 755 "${ARCHIVE}/sing-box" /usr/local/bin/sing-box
+          sing-box version
+
+      # ── 6. 递归编译所有子目录中的 JSON → SRS ───────────────────
+      - name: Compile JSON to SRS
+        run: |
+          echo "🔨  开始编译..."
+          find dist -name "*.json" | while IFS= read -r json_file; do
+            dir=$(dirname "${json_file}")
+            name=$(basename "${json_file}" .json)
+            srs_file="${dir}/${name}.srs"
+            sing-box rule-set compile --output "${srs_file}" "${json_file}"
+            SIZE=$(du -sh "${srs_file}" | cut -f1)
+            echo "✅  ${srs_file}  (${SIZE})"
+          done
+
+      # ── 7. 提交并推送变更 ───────────────────────────────────────
+      - name: Commit and push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add dist/
+
+          if git diff --staged --quiet; then
+            echo "ℹ️  规则集无变化，跳过提交。"
+          else
+            TIMESTAMP=$(date -u +'%Y-%m-%d %H:%M UTC')
+            git commit -m "chore: auto-update ruleset [${TIMESTAMP}]"
+            git push
+            echo "✅  已推送最新规则集。"
+          fi
