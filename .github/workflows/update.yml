@@ -29,17 +29,19 @@ jobs:
       - name: Convert rules to JSON
         run: python scripts/convert.py
 
-      # ── 4. 查询 sing-box 最新稳定版本号 ────────────────────────
-      - name: Get latest sing-box version
+      # ── 4. 查询 sing-box 最新预发布版本号（1.4.x beta，支持 version:5）──
+      - name: Get latest sing-box pre-release version
         id: singbox
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG=$(gh release view --repo SagerNet/sing-box --json tagName -q .tagName)
+          TAG=$(gh release list --repo SagerNet/sing-box --limit 20 \
+            --json tagName,isPrerelease \
+            | jq -r '[.[] | select(.isPrerelease == true)] | .[0].tagName')
           VERSION="${TAG#v}"
           echo "tag=${TAG}"         >> "$GITHUB_OUTPUT"
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
-          echo "ℹ️  sing-box ${TAG}"
+          echo "ℹ️  sing-box ${TAG} (pre-release)"
 
       # ── 5. 下载并安装 sing-box 二进制 ──────────────────────────
       - name: Install sing-box
@@ -72,7 +74,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add dist/
+          git add -f dist/
 
           if git diff --staged --quiet; then
             echo "ℹ️  规则集无变化，跳过提交。"
