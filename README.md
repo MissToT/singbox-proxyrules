@@ -34,17 +34,13 @@
       "tag": "proxy-domain",
       "type": "remote",
       "format": "binary",
-      "url": "https://raw.githubusercontent.com/MissToT/rule-set/main/dist/domain/proxy.srs",
-      "download_detour": "direct",
-      "update_interval": "1d"
+      "url": "https://raw.githubusercontent.com/MissToT/rule-set/main/dist/domain/proxy.srs"
     },
     {
       "tag": "proxy-ipcidr",
       "type": "remote",
       "format": "binary",
-      "url": "https://raw.githubusercontent.com/MissToT/rule-set/main/dist/ipcidr/proxy.srs",
-      "download_detour": "direct",
-      "update_interval": "1d"
+      "url": "https://raw.githubusercontent.com/MissToT/rule-set/main/dist/ipcidr/proxy.srs"
     }
   ]
 }
