@@ -116,56 +116,6 @@ rules:
 
 ---
 
-## 🔄 更新机制
-
-```
-多个上游 .mrs 文件
-    │
-    ▼
-Mihomo 解码为明文文本
-    │
-    ▼
-Set 结构跨源去重合并
-    │
-    ├──► Mihomo 编译  ──►  .yaml / .mrs  ──►  推送至 mihomo 分支
-    │
-    └──► Sing-box 编译 ──►  .json / .srs  ──►  推送至 singbox 分支
-```
-
-- 自动运行时间：每天 **北京时间凌晨 4:00**（UTC 20:00）
-- 支持手动在 Actions 页面触发 `workflow_dispatch`
-- 每次运行自动获取最新稳定版 sing-box 与 mihomo 内核进行编译
-
----
-
-## 📂 输出目录结构
-
-规则集分别推送至两个独立分支：
-
-**`mihomo` 分支**（Mihomo / Clash Meta 格式）
-```
-geo/
-├── geosite/
-│   ├── china.yaml / china.mrs
-│   ├── proxy.yaml / proxy.mrs
-└── geoip/
-    ├── china.yaml / china.mrs
-    └── proxy.yaml / proxy.mrs
-```
-
-**`singbox` 分支**（Sing-box 格式）
-```
-geo/
-├── geosite/
-│   ├── china.json / china.srs
-│   ├── proxy.json / proxy.srs
-└── geoip/
-    ├── china.json / china.srs
-    └── proxy.json / proxy.srs
-```
-
----
-
 ## 📡 数据来源
 
 规则从以下上游仓库下载并合并，脚本本身不修改任何规则内容：
