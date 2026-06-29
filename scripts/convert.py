@@ -13,37 +13,37 @@ import shutil
 RULES_CONFIG = {
     "domain": {
         "china": [
-            "https://v6.gh-proxy.org/github.com/MissToT/Picture/raw/Meta/Rules/domain/China.mrs",
-            "https://v6.gh-proxy.org/github.com/QuixoticHeart/rule-set/raw/ruleset/meta/domain/cn.mrs",
-            "https://v6.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/cn.mrs" # [新增] MetaCubeX 中国域名
+            "https://github.com/MissToT/Picture/raw/Meta/Rules/domain/China.mrs",
+            "https://github.com/QuixoticHeart/rule-set/raw/ruleset/meta/domain/cn.mrs",
+            "https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/cn.mrs"
         ],
         "proxy": [
-            "https://v6.gh-proxy.org/github.com/MissToT/Picture/raw/Meta/Rules/domain/Proxy.mrs",
-            "https://v6.gh-proxy.org/github.com/QuixoticHeart/rule-set/raw/ruleset/meta/domain/proxy.mrs"
+            "https://github.com/MissToT/Picture/raw/Meta/Rules/domain/Proxy.mrs",
+            "https://github.com/QuixoticHeart/rule-set/raw/ruleset/meta/domain/proxy.mrs"
         ],
         "adblock": [
-            "https://v6.gh-proxy.org/github.com/privacy-protection-tools/anti-ad.github.io/raw/master/docs/mihomo.mrs",
-            "https://v6.gh-proxy.org/github.com/MissToT/Picture/raw/Meta/Rules/domain/reject.mrs"
+            "https://github.com/privacy-protection-tools/anti-ad.github.io/raw/master/docs/mihomo.mrs",
+            "https://github.com/MissToT/Picture/raw/Meta/Rules/domain/reject.mrs"
         ],
         "japan": [
-            "https://v6.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/dlsite.mrs",
-            "https://v6.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/dmm.mrs",
-            "https://v6.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/pixiv.mrs",
-            "https://v6.gh-proxy.org/github.com/MissToT/Picture/raw/Meta/Rules/domain/Japan.mrs"
+            "https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/dlsite.mrs",
+            "https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/dmm.mrs",
+            "https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/pixiv.mrs",
+            "https://github.com/MissToT/Picture/raw/Meta/Rules/domain/Japan.mrs"
         ],
         "taiwan": [
-            "https://v6.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/bahamut.mrs",
-            "https://v6.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/manhuagui.mrs",
-            "https://v6.gh-proxy.org/github.com/MissToT/Picture/raw/Meta/Rules/domain/Taiwan.mrs"
+            "https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/bahamut.mrs",
+            "https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/manhuagui.mrs",
+            "https://github.com/MissToT/Picture/raw/Meta/Rules/domain/Taiwan.mrs"
         ]
     },
     "ipcidr": {
         "china": [
-            "https://v6.gh-proxy.org/github.com/QuixoticHeart/rule-set/raw/ruleset/meta/ipcidr/cn.mrs",
-            "https://v6.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cn.mrs" # [新增] MetaCubeX 中国IP
+            "https://github.com/QuixoticHeart/rule-set/raw/ruleset/meta/ipcidr/cn.mrs",
+            "https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/cn.mrs"
         ],
         "proxy": [
-            "https://raw.githubusercontent.com/QuixoticHeart/rule-set/ruleset/meta/ipcidr/proxy.mrs"
+            "https://github.com/QuixoticHeart/rule-set/raw/ruleset/meta/ipcidr/proxy.mrs"
         ]
     }
 }
@@ -69,7 +69,7 @@ def setup_binaries():
     print("[*] 正在准备编译内核...")
     
     # 准备 sing-box
-    sb_url = get_latest_stable_asset_url("SagerNet/sing-box", r"linux-amd64.*\.tar\.gz") or "https://github.com/SagerNet/sing-box/releases/download/v1.18.0/sing-box-1.18.0-linux-amd64.tar.gz"
+    sb_url = get_latest_stable_asset_url("SagerNet/sing-box", r"linux-amd64.*\.tar\.gz") or "https://github.com/SagerNet/sing-box/releases/download/v1.13.14/sing-box-1.13.14-linux-amd64.tar.gz"
     urllib.request.urlretrieve(sb_url, "sing-box.tar.gz")
     with tarfile.open("sing-box.tar.gz", "r:gz") as tar:
         for member in tar.getmembers():
@@ -79,7 +79,7 @@ def setup_binaries():
     os.chmod("sing-box", 0o755)
     
     # 准备 mihomo
-    mihomo_url = get_latest_stable_asset_url("MetaCubeX/mihomo", r"linux-amd64.*\.gz") or "https://github.com/MetaCubeX/mihomo/releases/download/v1.18.3/mihomo-linux-amd64-v1.18.3.gz"
+    mihomo_url = get_latest_stable_asset_url("MetaCubeX/mihomo", r"linux-amd64.*\.gz") or "https://github.com/MetaCubeX/mihomo/releases/download/v1.19.27/mihomo-linux-amd64-v1.19.27.gz"
     urllib.request.urlretrieve(mihomo_url, "mihomo.gz")
     with gzip.open("mihomo.gz", "rb") as f_in:
         with open("mihomo", "wb") as f_out: 
