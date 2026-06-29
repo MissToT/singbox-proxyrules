@@ -1,0 +1,34 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "bahamut.akamaized.net",
+        "gamer-cds.cdn.hinet.net",
+        "gamer2-cds.cdn.hinet.net",
+        "pubu.api.useinsider.com",
+        "vdownload.hembed.com"
+      ],
+      "domain_suffix": [
+        "bahamut.akamaized.net",
+        "bahamut.com.tw",
+        "bookwalker.com.tw",
+        "digicert.com",
+        "gamer.com.tw",
+        "gvt1.com",
+        "hamreus.com",
+        "hanime1.com",
+        "hanime1.me",
+        "hanimeone.me",
+        "hinet.net",
+        "javchu.com",
+        "manhuagui.com",
+        "mhgui.com",
+        "pubu.com.tw",
+        "pubu.tw",
+        "readmoo.com",
+        "viblast.com"
+      ]
+    }
+  ]
+}
